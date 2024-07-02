@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timberr/constants.dart';
 import 'package:timberr/controllers/address_controller.dart';
 import 'package:timberr/controllers/card_details_controller.dart';
@@ -12,7 +11,9 @@ import 'package:timberr/screens/authentication/onboarding_welcome.dart';
 import 'package:timberr/screens/authentication/splash_screen.dart';
 
 class Wrapper extends StatefulWidget {
-  const Wrapper({super.key});
+  const Wrapper({super.key, required this.isAuth});
+
+  final bool isAuth;
 
   @override
   State<Wrapper> createState() => _WrapperState();
@@ -31,8 +32,8 @@ class _WrapperState extends State<Wrapper> {
       return;
     }
 
-    final session = Supabase.instance.client.auth.currentSession;
-    if (session != null) {
+    // final session = Supabase.instance.client.auth.currentSession;
+    if (widget.isAuth) {
       Get.put(HomeController());
       Get.put(FavoritesController());
       Get.put(CartController());

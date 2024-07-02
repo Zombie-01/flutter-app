@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timberr/constants.dart';
+import 'package:timberr/dummyData.dart';
 import 'package:timberr/models/user_data.dart';
 import 'package:timberr/screens/authentication/onboarding_welcome.dart';
 
@@ -10,12 +11,9 @@ class UserController extends GetxController {
   UserData userData = UserData();
 
   Future<void> fetchUserData() async {
-    final response = await _supabaseClient
-        .from("Users")
-        .select(
-            "Name, Email, profile_picture_url, sales_notification, delivery_status_notification, new_arrivals_notification")
-        .eq("Uid", _supabaseClient.auth.currentUser!.id);
-    userData = UserData.fromJson(response[0]);
+    final response =
+        dummyUserData.firstWhere((a) => a.email == 'johndoe@example.com');
+    userData = response;
     update();
   }
 

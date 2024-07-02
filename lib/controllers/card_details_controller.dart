@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:timberr/dummyData.dart';
 import 'package:timberr/models/card_detail.dart';
 
 class CardDetailsController extends GetxController {
@@ -20,31 +21,20 @@ class CardDetailsController extends GetxController {
 
   Future<void> fetchCardDetails() async {
     //fetch Card Details
-    final response = await _supabaseClient.from("Card_Details").select().eq(
-          "user_id",
-          _supabaseClient.auth.currentUser!.id,
-        );
-    final responseList = response;
-    for (int i = 0; i < responseList.length; i++) {
-      cardDetailList.add(CardDetail.fromJson(responseList[i]));
+    final response = dummyCardDetails;
+    for (int i = 0; i < response.length; i++) {
+      cardDetailList.add(response[i]);
     }
   }
 
   Future<void> getDefaultCardDetail() async {
     //get default card detail
-    final defaultShippingResponse =
-        await _supabaseClient.from("Users").select('default_card_detail_id').eq(
-              "Uid",
-              _supabaseClient.auth.currentUser!.id,
-            );
-    int? responseId = defaultShippingResponse[0]['default_card_detail_id'];
+    int? responseId = 1;
     await fetchCardDetails();
-    if (responseId != null) {
-      for (int i = 0; i < cardDetailList.length; i++) {
-        if (cardDetailList.elementAt(i).id == responseId) {
-          selectedIndex.value = i;
-          break;
-        }
+    for (int i = 0; i < cardDetailList.length; i++) {
+      if (cardDetailList.elementAt(i).id == responseId) {
+        selectedIndex.value = i;
+        break;
       }
     }
   }

@@ -18,13 +18,18 @@ class SplashScreen extends StatelessWidget {
   final CardDetailsController _cardDetailsController = Get.find();
   final AddressController _addressController = Get.find();
   Future initControllers() async {
-    await _homeController.getProducts(0);
-    await _favoritesController.fetchFavorites();
-    await _cartController.fetchCartItems();
-    await _userController.fetchUserData();
-    await _cardDetailsController.getDefaultCardDetail();
-    await _addressController.getDefaultShippingAddress();
-    Get.off(() => Home());
+    try {
+      await _homeController.getProducts(0);
+      await _favoritesController.fetchFavorites();
+      await _cartController.fetchCartItems();
+      await _userController.fetchUserData();
+      await _cardDetailsController.getDefaultCardDetail();
+      await _addressController.getDefaultShippingAddress();
+      Get.off(() => Home());
+    } catch (e) {
+      debugPrint('Error initializing controllers: $e');
+      // Handle error or retry initialization
+    }
   }
 
   @override

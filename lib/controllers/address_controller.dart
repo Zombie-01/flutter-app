@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timberr/constants.dart';
+import 'package:timberr/dummyData.dart';
 import 'package:timberr/models/address.dart';
 
 class AddressController extends GetxController {
@@ -13,33 +14,21 @@ class AddressController extends GetxController {
 
   Future<void> fetchAddresses() async {
     //get address list
-    final response = await _supabaseClient.from("Addresses").select().eq(
-          "user_id",
-          _supabaseClient.auth.currentUser!.id,
-        );
-    final responseList = response;
+    final responseList = dummyAddresses;
     for (int i = 0; i < responseList.length; i++) {
-      addressList.add(Address.fromJson(responseList[i]));
+      addressList.add(responseList[i]);
     }
     update();
   }
 
   Future<void> getDefaultShippingAddress() async {
-    //get default shipping address
-    final defaultShippingResponse =
-        await _supabaseClient.from("Users").select('default_shipping_id').eq(
-              "Uid",
-              _supabaseClient.auth.currentUser!.id,
-            );
-    int? responseId = defaultShippingResponse[0]['default_shipping_id'];
+    int? responseId = 1;
     await fetchAddresses();
-    if (responseId != null) {
-      for (int i = 0; i < addressList.length; i++) {
-        if (addressList.elementAt(i).id == responseId) {
-          selectedIndex = i;
-          update();
-          break;
-        }
+    for (int i = 0; i < addressList.length; i++) {
+      if (addressList.elementAt(i).id == responseId) {
+        selectedIndex = i;
+        update();
+        break;
       }
     }
   }

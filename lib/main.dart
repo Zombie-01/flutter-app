@@ -34,7 +34,9 @@ class TimberrApp extends StatelessWidget {
           style: TextButton.styleFrom(foregroundColor: kOffBlack),
         ),
       ),
-      home: const Wrapper(),
+      home: const Wrapper(
+        isAuth: false,
+      ),
     );
   }
 }

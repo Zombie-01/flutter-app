@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:timberr/dummyData.dart';
 import 'package:timberr/models/cart_item.dart';
 import 'package:timberr/models/product.dart';
 import 'package:timberr/screens/cart/cart_screen.dart';
@@ -12,22 +13,14 @@ class CartController extends GetxController {
   final _supabaseClient = Supabase.instance.client;
 
   Future<void> fetchCartItems() async {
-    final response = await _supabaseClient
-        .from('Users')
-        .select()
-        .eq("Uid", _supabaseClient.auth.currentUser!.id);
-    cartIdList = response[0]['cartList'];
+    cartIdList = [1];
     for (int i = 0; i < cartIdList.length; i++) {
-      final cartResponse = await _supabaseClient
-          .from('Cart_Items')
-          .select()
-          .eq("cart_id", cartIdList[i]);
-      final productResponse = await _supabaseClient
-          .from('Products')
-          .select()
-          .eq("product_id", cartResponse[0]['product_id']);
-      cartList.add(CartItem(cartIdList[i], cartResponse[0]['quantity'],
-          cartResponse[0]['color'], productResponse[0]));
+      final cartResponse =
+          dummyCartItems.firstWhere((a) => a.cartId == cartIdList[i]);
+      final productResponse = dummyProducts
+          .firstWhere((a) => a.productId == cartResponse.productId);
+      cartList.add(CartItem(cartIdList[i], cartResponse.quantity,
+          cartResponse.color.toString(), productResponse.toJson()));
       total.value = total.value +
           (cartList.elementAt(i).quantity * cartList.elementAt(i).price);
     }
