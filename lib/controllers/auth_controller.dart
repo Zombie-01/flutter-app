@@ -1,19 +1,30 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:convert';
 import 'package:timberr/constants.dart';
 import 'package:timberr/wrapper.dart';
+import 'package:http/http.dart' as http;
 
 class AuthController extends GetxController {
   String? user;
 
   Future<void> signIn(String email, String password) async {
     try {
-      if (email == "test@gmail.com" && password == "123456") {
-        user = email; // Set user to email
+      final response = await http.post(
+        Uri.parse('$apiUrl/auth'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'password': password,
+        }),
+      );
+      if (response.statusCode == 200) {
         Get.offAll(() => const Wrapper(isAuth: true));
-        return;
+        return jsonDecode(response.body);
+      } else {
+        kDefaultDialog("Error", "Failed to sign in");
       }
-      throw "Wrong password";
     } catch (error) {
       kDefaultDialog("Error", error.toString());
     }
@@ -22,11 +33,22 @@ class AuthController extends GetxController {
   Future<void> signUp(String name, String email, String password) async {
     try {
       // Simulate sign up process
-      if (email == "test@gmail.com") {
-        throw "Email already exists";
-      } else {
-        user = email; // Set user to email
+      final response = await http.post(
+        Uri.parse('$apiUrl/create'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'username': name,
+          'password': password,
+        }),
+      );
+      if (response.statusCode == 200) {
         Get.offAll(() => const Wrapper(isAuth: true));
+        return jsonDecode(response.body);
+      } else {
+        kDefaultDialog("Error", "Failed to sign up");
       }
     } catch (error) {
       kDefaultDialog("Error", error.toString());
