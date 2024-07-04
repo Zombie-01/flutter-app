@@ -1,10 +1,8 @@
 import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timberr/dummyData.dart';
 import 'package:timberr/models/card_detail.dart';
 
 class CardDetailsController extends GetxController {
-  final _supabaseClient = Supabase.instance.client;
   var cardDetailList = <CardDetail>[].obs;
   var selectedIndex = 0.obs;
 
@@ -20,16 +18,13 @@ class CardDetailsController extends GetxController {
   }
 
   Future<void> fetchCardDetails() async {
-    //fetch Card Details
-    final response = dummyCardDetails;
-    for (int i = 0; i < response.length; i++) {
-      cardDetailList.add(response[i]);
-    }
+    // Fetch Card Details from dummy data
+    cardDetailList.addAll(dummyCardDetails);
   }
 
   Future<void> getDefaultCardDetail() async {
-    //get default card detail
-    int? responseId = 1;
+    // Get default card detail
+    int responseId = 1;
     await fetchCardDetails();
     for (int i = 0; i < cardDetailList.length; i++) {
       if (cardDetailList.elementAt(i).id == responseId) {
@@ -39,15 +34,10 @@ class CardDetailsController extends GetxController {
     }
   }
 
-  Future<void> setDefaultCardDetail(int index) async {
+  void setDefaultCardDetail(int index) {
     if (selectedIndex.value == index) {
       return;
     }
     selectedIndex.value = index;
-    await _supabaseClient.from("Users").update(
-        {'default_card_detail_id': cardDetailList.elementAt(index).id}).eq(
-      "Uid",
-      _supabaseClient.auth.currentUser!.id,
-    );
   }
 }

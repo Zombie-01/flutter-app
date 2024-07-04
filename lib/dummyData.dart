@@ -107,18 +107,8 @@ List<Address> dummyAddresses = [
 ];
 
 List<CardDetail> dummyCardDetails = [
-  CardDetail(
-      id: 1,
-      name: 'Munkhtergel',
-      cardNumber: 1234567890123456,
-      month: 11,
-      year: 2023),
-  CardDetail(
-      id: 2,
-      name: 'Alice Smith',
-      cardNumber: 1234567890123456,
-      month: 11,
-      year: 2023)
+  CardDetail(1, "John Doe", "1234123412341234", "12/24", "123"),
+  CardDetail(2, "Jane Smith", "4321432143214321", "11/23", "321"),
 ];
 
 List<UserData> dummyUserData = [
