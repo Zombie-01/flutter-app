@@ -1,14 +1,28 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:timberr/constants.dart';
+
 class Category {
+  int id;
   String name;
-  String iconPath;
-  Category(this.name, this.iconPath);
+
+  Category({required this.id, required this.name});
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      id: json['id'],
+      name: json['name'],
+    );
+  }
 }
 
-List<Category> categoryList = [
-  Category('Popular', 'assets/icons/popular_icon.svg'),
-  Category('Chair', 'assets/icons/chair_icon.svg'),
-  Category('Table', 'assets/icons/table_icon.svg'),
-  Category('Armchair', 'assets/icons/armchair_icon.svg'),
-  Category('Bed', 'assets/icons/bed_icon.svg'),
-  Category('Lamp', 'assets/icons/lamp_icon.svg')
-];
+Future<List<Category>> fetchCategories() async {
+  final response = await http.get(Uri.parse('$apiUrl/category/client'));
+
+  if (response.statusCode == 200) {
+    List<dynamic> data = jsonDecode(response.body);
+    return data.map((json) => Category.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to load categories');
+  }
+}

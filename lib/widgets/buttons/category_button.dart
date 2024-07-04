@@ -3,16 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:timberr/constants.dart';
 
 class CategoryButton extends StatelessWidget {
-  final String iconPath;
   final String name;
   final bool isSelected;
-  final void Function() onTap;
-  const CategoryButton(
-      {super.key,
-      required this.iconPath,
-      required this.name,
-      this.isSelected = false,
-      required this.onTap});
+  final VoidCallback onTap;
+
+  const CategoryButton({
+    Key? key,
+    required this.name,
+    required this.isSelected,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,12 @@ class CategoryButton extends StatelessWidget {
                 color: (isSelected) ? kOffBlack : kSnowFlakeWhite,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: SvgPicture.asset(
-                iconPath,
-                fit: BoxFit.none,
-                color: (isSelected) ? Colors.white : kTinGrey,
+              child: Text(
+                name,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Text(

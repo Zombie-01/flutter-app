@@ -15,19 +15,24 @@ class CategoryTabBar extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       child: Obx(
-        () => Row(
-          children: [
-            for (int i = 0; i < categoryList.length; i++)
-              CategoryButton(
-                name: categoryList[i].name,
-                iconPath: categoryList[i].iconPath,
-                isSelected: (i == _controller.selectedCategory.value),
-                onTap: () {
-                  _controller.changeCategory(i);
-                },
-              )
-          ],
-        ),
+        () {
+          if (_controller.categories.isEmpty) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            return Row(
+              children: [
+                for (int i = 0; i < _controller.categories.length; i++)
+                  CategoryButton(
+                    name: _controller.categories[i].name,
+                    isSelected: (i == _controller.selectedCategory.value),
+                    onTap: () {
+                      _controller.changeCategory(i);
+                    },
+                  )
+              ],
+            );
+          }
+        },
       ),
     );
   }

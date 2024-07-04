@@ -23,7 +23,7 @@ class AuthController extends GetxController {
         Get.offAll(() => const Wrapper(isAuth: true));
         return jsonDecode(response.body);
       } else {
-        kDefaultDialog("Error", "Failed to sign in");
+        kDefaultDialog("Error", "Failed to sign in s");
       }
     } catch (error) {
       kDefaultDialog("Error", error.toString());
