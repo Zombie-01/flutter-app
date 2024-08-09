@@ -9,6 +9,9 @@ class CartController extends GetxController {
   List<int> cartIdList = [];
   var cartList = <CartItem>{}.obs;
   var total = 0.obs;
+  String token;
+
+  CartController({required this.token});
 
   Future<void> fetchCartItems() async {
     cartIdList = dummyCartItems.map((item) => item.cartId).toList();

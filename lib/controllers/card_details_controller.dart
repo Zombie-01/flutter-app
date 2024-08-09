@@ -5,6 +5,9 @@ import 'package:timberr/models/card_detail.dart';
 class CardDetailsController extends GetxController {
   var cardDetailList = <CardDetail>[].obs;
   var selectedIndex = 0.obs;
+  String token;
+
+  CardDetailsController({required this.token});
 
   String getLastFourDigits() {
     if (cardDetailList.isNotEmpty) {

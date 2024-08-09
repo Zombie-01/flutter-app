@@ -19,7 +19,7 @@ class ProductImageView extends StatelessWidget {
           top: 0,
           bottom: 0,
           child: Hero(
-            tag: imagesList[0],
+            tag: imgUrl + imagesList[0],
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(50),
@@ -35,8 +35,8 @@ class ProductImageView extends StatelessWidget {
                   children: [
                     for (int i = 0; i < imagesList.length; i++)
                       CachedNetworkImage(
-                        cacheKey: imagesList[i],
-                        imageUrl: imagesList[i],
+                        cacheKey: imgUrl + imagesList[i],
+                        imageUrl: imgUrl + imagesList[i],
                         maxHeightDiskCache: (size.height * 2).toInt(),
                         maxWidthDiskCache: (size.width * 2).toInt(),
                         fit: BoxFit.cover,

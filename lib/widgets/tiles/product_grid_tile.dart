@@ -38,14 +38,14 @@ class ProductGridTile extends StatelessWidget {
             child: HeroMode(
               enabled: heroMode,
               child: Hero(
-                tag: product.imagesList[0],
+                tag: imgUrl + product.imagesList[0],
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Stack(
                     children: [
                       CachedNetworkImage(
-                        cacheKey: product.imagesList[0],
-                        imageUrl: product.imagesList[0],
+                        cacheKey: imgUrl + product.imagesList[0],
+                        imageUrl: imgUrl + product.imagesList[0],
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) {
                           if (downloadProgress.progress == null) {

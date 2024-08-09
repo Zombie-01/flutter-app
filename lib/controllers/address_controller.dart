@@ -10,6 +10,10 @@ class AddressController extends GetxController {
   String name = "", address = "", country = "", city = "", district = "";
   int pincode = 0;
 
+  String token;
+
+  AddressController({required this.token});
+
   @override
   void onInit() {
     super.onInit();

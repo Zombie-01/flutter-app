@@ -14,7 +14,12 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final AuthController _authController = AuthController();
   final _formKey = GlobalKey<FormState>();
-  String name = '', email = '', password = '', confirmPassword = '';
+  String name = '',
+      lastName = '',
+      phoneNumber = '',
+      email = '',
+      password = '',
+      confirmPassword = '';
   bool _showPassword = false;
 
   void _nameOnChanged(String val) {
@@ -23,6 +28,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String? _nameValidator(String? val) {
     return name.isNotEmpty ? null : 'Please enter your name';
+  }
+
+  void _lastNameOnChanged(String val) {
+    lastName = val;
+  }
+
+  String? _phoneValidator(String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Please enter your phone';
+    }
+    if (int.tryParse(val) == null) {
+      return 'Please enter a valid number';
+    }
+    return null;
+  }
+
+  void _phoneOnChanged(String val) {
+    phoneNumber = val;
+  }
+
+  String? _lastNameValidator(String? val) {
+    return lastName.isNotEmpty ? null : 'Please enter your last name';
   }
 
   void _emailOnChanged(String val) {
@@ -64,7 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _signUp() {
     if (_formKey.currentState!.validate()) {
-      _authController.signUp(name, email, password);
+      _authController.signUp(name, phoneNumber, lastName, email, password);
     }
   }
 
@@ -102,7 +129,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         endIndent: 20,
                       ),
                     ),
-                    SvgPicture.asset("assets/furniture_vector.svg"),
+                    SvgPicture.asset("assets/logo-mini.png"),
                     const Flexible(
                       child: Divider(
                         color: kNoghreiSilver,
@@ -123,6 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Form(
                   key: _formKey,
                   child: Container(
+                    height: MediaQuery.of(context).size.height,
                     margin: const EdgeInsets.only(right: 30),
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -149,6 +177,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             validator: _nameValidator,
                             decoration: inputDecorationConst.copyWith(
                                 labelText: "Name"),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 30,
+                            top: 20,
+                          ),
+                          child: TextFormField(
+                            cursorColor: kOffBlack,
+                            textInputAction: TextInputAction.next,
+                            textCapitalization: TextCapitalization.words,
+                            onChanged: _lastNameOnChanged,
+                            validator: _lastNameValidator,
+                            decoration: inputDecorationConst.copyWith(
+                                labelText: "Lastname"),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 30,
+                            top: 20,
+                          ),
+                          child: TextFormField(
+                            cursorColor: kOffBlack,
+                            textInputAction: TextInputAction.next,
+                            textCapitalization: TextCapitalization.words,
+                            onChanged: _phoneOnChanged,
+                            validator: _phoneValidator,
+                            decoration: inputDecorationConst.copyWith(
+                                labelText: "Phone number"),
                           ),
                         ),
                         Padding(

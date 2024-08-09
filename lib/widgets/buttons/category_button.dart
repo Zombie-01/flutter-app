@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:timberr/constants.dart';
 
 class CategoryButton extends StatelessWidget {
@@ -23,8 +22,7 @@ class CategoryButton extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 45,
-              width: 45,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: (isSelected) ? kOffBlack : kSnowFlakeWhite,
                 borderRadius: BorderRadius.circular(12),
@@ -35,13 +33,6 @@ class CategoryButton extends StatelessWidget {
                   color: isSelected ? Colors.white : Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-            ),
-            Text(
-              name,
-              style: TextStyle(
-                color: (isSelected) ? kOffBlack : kGrey,
-                fontWeight: (isSelected) ? FontWeight.w600 : FontWeight.normal,
               ),
             ),
           ],

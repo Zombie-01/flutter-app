@@ -23,7 +23,7 @@ class CategoryTabBar extends StatelessWidget {
               children: [
                 for (int i = 0; i < _controller.categories.length; i++)
                   CategoryButton(
-                    name: _controller.categories[i].name,
+                    name: _controller.categories[i].category_name,
                     isSelected: (i == _controller.selectedCategory.value),
                     onTap: () {
                       _controller.changeCategory(i);

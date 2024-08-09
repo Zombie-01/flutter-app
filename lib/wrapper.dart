@@ -11,8 +11,9 @@ import 'package:timberr/screens/authentication/onboarding_welcome.dart';
 import 'package:timberr/screens/authentication/splash_screen.dart';
 
 class Wrapper extends StatefulWidget {
-  const Wrapper({super.key, required this.isAuth});
+  const Wrapper({super.key, required this.isAuth, required this.token});
 
+  final String token;
   final bool isAuth;
 
   @override
@@ -35,11 +36,11 @@ class _WrapperState extends State<Wrapper> {
     // final session = Supabase.instance.client.auth.currentSession;
     if (widget.isAuth) {
       Get.put(HomeController());
-      Get.put(FavoritesController());
-      Get.put(CartController());
-      Get.put(UserController());
-      Get.put(AddressController());
-      Get.put(CardDetailsController());
+      Get.put(FavoritesController(token: widget.token));
+      Get.put(CartController(token: widget.token));
+      Get.put(UserController(token: widget.token));
+      Get.put(AddressController(token: widget.token));
+      Get.put(CardDetailsController(token: widget.token));
       Get.to(() => SplashScreen(), transition: Transition.fadeIn);
     } else {
       Get.off(() => const OnBoardingWelcomeScreen());

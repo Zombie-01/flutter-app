@@ -19,7 +19,7 @@ class SplashScreen extends StatelessWidget {
   final AddressController _addressController = Get.find();
   Future initControllers() async {
     try {
-      await _homeController.getProducts(0);
+      await _homeController.getProducts();
       await _favoritesController.fetchFavorites();
       await _cartController.fetchCartItems();
       await _userController.fetchUserData();

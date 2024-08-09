@@ -10,7 +10,7 @@ class AuthController extends GetxController {
   Future<void> signIn(String email, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('$apiUrl/auth'),
+        Uri.parse('$apiUrl/costumer/auth'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -20,32 +20,47 @@ class AuthController extends GetxController {
         }),
       );
       if (response.statusCode == 200) {
-        Get.offAll(() => const Wrapper(isAuth: true));
+        final responseData = jsonDecode(response.body);
+        String token = responseData['token'];
+        if (token != null) {
+          Get.offAll(() => Wrapper(isAuth: true, token: token));
+        } else {
+          kDefaultDialog("Error", "Failed to retrieve token");
+        }
         return jsonDecode(response.body);
       } else {
-        kDefaultDialog("Error", "Failed to sign in s");
+        kDefaultDialog("Error", "Failed to sign in");
       }
     } catch (error) {
       kDefaultDialog("Error", error.toString());
     }
   }
 
-  Future<void> signUp(String name, String email, String password) async {
+  Future<void> signUp(String name, String phoneNumber, String lastName,
+      String email, String password) async {
     try {
       // Simulate sign up process
       final response = await http.post(
-        Uri.parse('$apiUrl/create'),
+        Uri.parse('$apiUrl/costumer/create'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
           'email': email,
-          'username': name,
+          'first_name': name,
+          'last_name': lastName,
+          'phone_number': phoneNumber,
           'password': password,
         }),
       );
       if (response.statusCode == 200) {
-        Get.offAll(() => const Wrapper(isAuth: true));
+        final responseData = jsonDecode(response.body);
+        String token = responseData['token'];
+        if (token != null) {
+          Get.offAll(() => Wrapper(isAuth: true, token: token));
+        } else {
+          kDefaultDialog("Error", "Failed to retrieve token");
+        }
         return jsonDecode(response.body);
       } else {
         kDefaultDialog("Error", "Failed to sign up");
@@ -56,8 +71,17 @@ class AuthController extends GetxController {
   }
 
   Future<void> forgotPassword(String email) async {
+    final response = await http.post(
+      Uri.parse('$apiUrl/costumer/forgotpassword'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email': email,
+      }),
+    );
     // Simulate password reset process
-    if (email == "test@gmail.com") {
+    if (response.statusCode == 200) {
       Get.snackbar("Password reset",
           "Password reset request has been sent to your email successfully.");
     } else {

@@ -19,7 +19,8 @@ const kSeaGreen = Color(0xFF2AA952);
 const kCrayolaGreen = Color(0xFF27AE60);
 const kFireOpal = Color(0xFFEB5757);
 
-const apiUrl = "https://light-project-gamma.vercel.app/api/";
+const apiUrl = "https://light-project-gamma.vercel.app/api";
+const imgUrl = "https://light-project-gamma.vercel.app";
 
 const kNunitoSans10Grey =
     TextStyle(fontFamily: "NunitoSans", fontSize: 10, color: kGrey);

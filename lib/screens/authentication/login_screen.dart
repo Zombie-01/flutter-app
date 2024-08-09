@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         endIndent: 20,
                       ),
                     ),
-                    SvgPicture.asset("assets/furniture_vector.svg"),
+                    SvgPicture.asset("assets/logo-mini.png"),
                     const Flexible(
                       child: Divider(
                         color: kNoghreiSilver,

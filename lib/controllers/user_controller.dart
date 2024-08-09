@@ -1,18 +1,32 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:timberr/constants.dart';
-import 'package:timberr/dummyData.dart';
+import 'package:http/http.dart' as http;
 import 'package:timberr/models/user_data.dart';
 import 'package:timberr/screens/authentication/onboarding_welcome.dart';
 
 class UserController extends GetxController {
   UserData userData = UserData();
+  String token;
 
-  Future<void> fetchUserData() async {
-    final response =
-        dummyUserData.firstWhere((a) => a.email == 'johndoe@example.com');
-    userData = response;
-    update();
+  UserController({required this.token});
+
+  Future<Map<String, dynamic>?> fetchUserData() async {
+    final response = await http.get(
+      Uri.parse('$apiUrl/api/customer/me'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      print('Error fetching customer details: ${response.statusCode}');
+      return null;
+    }
   }
 
   void signOut() {

@@ -5,6 +5,9 @@ import 'package:timberr/models/product.dart';
 
 class FavoritesController extends GetxController {
   var favoritesList = <Product>[].obs;
+  String token;
+
+  FavoritesController({required this.token});
 
   Future<void> fetchFavorites() async {
     List responseList = [1, 2];
